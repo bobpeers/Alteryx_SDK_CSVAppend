@@ -7,6 +7,8 @@ The tool will not create files, if you want to do this just use the standard Alt
 
 Headers will also not be added to the ouput since this tool expects a file has alreayd been created with headers if required.
 
+__Note that the output file name does not need to be .csv, it will work with any flat file format incluing files without a file extension (Unix, Mac type files)__
+
 ## Installation
 Download the yxi file and double click to install in Alteyrx. 
 

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>CSV Append</title>
+	<script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+	</script>
+</head>
+<body>
+  <div class="header-message">
+    <div>XMSG("CSV Append")</div>
+    <hr class="header-ruler"></hr>
+    </div>
+	<form>
+    <fieldset>
+
+          <label>XMSG("Enter File Path")</label>
+          <ayx data-ui-props='{type:"FileBrowse", widgetId:"file", browseType:"File"}' data-item-props="{dataName:'fileOutputPath'}"></ayx>
+
+          <label>XMSG("Delimiter")</label>
+          <ayx data-ui-props='{type:"TextBox", widgetId:"delimiter"}' data-item-props="{dataName:'delimiter', maxLength:1}"></ayx>
+
+          <label>XMSG("Quote Output Fields:")</label>
+          <ayx data-ui-props='{type:"DropDown", widgetId:"quote"}'  data-item-props="{dataName:'quote'}"></ayx>
+
+          <label>XMSG("Code Page:")</label>
+          <ayx data-ui-props='{type:"DropDown", widgetId:"code"}'  data-item-props="{dataName:'codepage'}"></ayx>
+
+          <label>XMSG("Line Ending Style:")</label>
+          <ayx data-ui-props='{type:"DropDown", widgetId:"line"}'  data-item-props="{dataName:'newline'}"></ayx>
+
+
+    </fieldset>
+	</form>
+  <script type="text/javascript">
+    Alteryx.Gui.BeforeLoad = (manager, AlteryxDataItems, json) => {
+      /* Set default path to Public folder and show user that the full path is needed */
+      manager.getDataItem('fileOutputPath').setValue('C:\\Users\\Public\\Output.csv') 
+
+          // Dropdown version quote style
+    var stringSelector = new AlteryxDataItems.StringSelector('quote', {
+          optionList: [
+          {label: 'XMSG("Auto")', value: 'auto'},
+          {label: 'XMSG("Always")', value: 'always'},
+          {label: 'XMSG("Text")', value: 'text'},
+          {label: 'XMSG("None")', value: 'none'}
+          ]
+        })
+        manager.addDataItem(stringSelector)
+        manager.bindDataItemToWidget(stringSelector, 'quote') // Bind to widget
+
+                  // Dropdown version codepage
+    var stringSelector = new AlteryxDataItems.StringSelector('codepage', {
+          optionList: [
+          {label: 'XMSG("utf-8")', value: 'utf_8'},
+          {label: 'XMSG("utf-16")', value: 'utf_16'},
+          {label: 'XMSG("latin-1")', value: 'latin_1'},
+          {label: 'XMSG("ascii")', value: 'ascii'},
+          {label: 'XMSG("big5")', value: 'big5'},
+          {label: 'XMSG("big5hkscs")', value: 'big5hkscs'},
+          {label: 'XMSG("cp037")', value: 'cp037'},
+          {label: 'XMSG("cp273")', value: 'cp273'},
+          {label: 'XMSG("cp424")', value: 'cp424'},
+          {label: 'XMSG("cp437")', value: 'cp437'},
+          {label: 'XMSG("cp500")', value: 'cp500'},
+          {label: 'XMSG("cp720")', value: 'cp720'},
+          {label: 'XMSG("cp737")', value: 'cp737'},
+          {label: 'XMSG("cp775")', value: 'cp775'},
+          {label: 'XMSG("cp850")', value: 'cp850'},
+          {label: 'XMSG("cp852")', value: 'cp852'},
+          {label: 'XMSG("cp855")', value: 'cp855'},
+          {label: 'XMSG("cp856")', value: 'cp856'},
+          {label: 'XMSG("cp857")', value: 'cp857'},
+          {label: 'XMSG("cp858")', value: 'cp858'},
+          {label: 'XMSG("cp860")', value: 'cp860'},
+          {label: 'XMSG("cp861")', value: 'cp861'},
+          {label: 'XMSG("cp862")', value: 'cp862'},
+          {label: 'XMSG("cp863")', value: 'cp863'},
+          {label: 'XMSG("cp864")', value: 'cp864'},
+          {label: 'XMSG("cp865")', value: 'cp865'},
+          {label: 'XMSG("cp866")', value: 'cp866'},
+          {label: 'XMSG("cp869")', value: 'cp869'},
+          {label: 'XMSG("cp874")', value: 'cp874'},
+          {label: 'XMSG("cp875")', value: 'cp875'},
+          {label: 'XMSG("cp932")', value: 'cp932'},
+          {label: 'XMSG("cp949")', value: 'cp949'},
+          {label: 'XMSG("cp950")', value: 'cp950'},
+          {label: 'XMSG("cp1006")', value: 'cp1006'},
+          {label: 'XMSG("cp1026")', value: 'cp1026'},
+          {label: 'XMSG("cp1125")', value: 'cp1125'},
+          {label: 'XMSG("cp1140")', value: 'cp1140'},
+          {label: 'XMSG("cp1250")', value: 'cp1250'},
+          {label: 'XMSG("cp1251")', value: 'cp1251'},
+          {label: 'XMSG("cp1252")', value: 'cp1252'},
+          {label: 'XMSG("cp1253")', value: 'cp1253'},
+          {label: 'XMSG("cp1254")', value: 'cp1254'},
+          {label: 'XMSG("cp1255")', value: 'cp1255'},
+          {label: 'XMSG("cp1256")', value: 'cp1256'},
+          {label: 'XMSG("cp1257")', value: 'cp1257'},
+          {label: 'XMSG("cp1258")', value: 'cp1258'},
+          {label: 'XMSG("cp65001")', value: 'cp65001'},
+          {label: 'XMSG("euc-jp")', value: 'euc_jp'},
+          {label: 'XMSG("euc-jis-2004")', value: 'euc_jis_2004'},
+          {label: 'XMSG("euc-jisx0213")', value: 'euc_jisx0213'},
+          {label: 'XMSG("euc-kr")', value: 'euc_kr'},
+          {label: 'XMSG("gb2312")', value: 'gb2312'},
+          {label: 'XMSG("gbk")', value: 'gbk'},
+          {label: 'XMSG("gb18030")', value: 'gb18030'},
+          {label: 'XMSG("hz")', value: 'hz'},
+          {label: 'XMSG("iso2022-jp")', value: 'iso2022_jp'},
+          {label: 'XMSG("iso2022-jp-1")', value: 'iso2022_jp_1'},
+          {label: 'XMSG("iso2022-jp-2")', value: 'iso2022_jp_2'},
+          {label: 'XMSG("iso2022-jp-2004")', value: 'iso2022_jp_2004'},
+          {label: 'XMSG("iso2022-jp-3")', value: 'iso2022_jp_3'},
+          {label: 'XMSG("iso2022-jp-ext")', value: 'iso2022_jp_ext'},
+          {label: 'XMSG("iso2022-kr")', value: 'iso2022_kr'},
+          {label: 'XMSG("iso8859-2")', value: 'iso8859_2'},
+          {label: 'XMSG("iso8859-3")', value: 'iso8859_3'},
+          {label: 'XMSG("iso8859-4")', value: 'iso8859_4'},
+          {label: 'XMSG("iso8859-5")', value: 'iso8859_5'},
+          {label: 'XMSG("iso8859-6")', value: 'iso8859_6'},
+          {label: 'XMSG("iso8859-7")', value: 'iso8859_7'},
+          {label: 'XMSG("iso8859-8")', value: 'iso8859_8'},
+          {label: 'XMSG("iso8859-9")', value: 'iso8859_9'},
+          {label: 'XMSG("iso8859-10")', value: 'iso8859_10'},
+          {label: 'XMSG("iso8859-11")', value: 'iso8859_11'},
+          {label: 'XMSG("iso8859-13")', value: 'iso8859_13'},
+          {label: 'XMSG("iso8859-14")', value: 'iso8859_14'},
+          {label: 'XMSG("iso8859-15")', value: 'iso8859_15'},
+          {label: 'XMSG("iso8859-16")', value: 'iso8859_16'},
+          {label: 'XMSG("johab")', value: 'johab'},
+          {label: 'XMSG("koi8-r")', value: 'koi8_r'},
+          {label: 'XMSG("koi8-t")', value: 'koi8_t'},
+          {label: 'XMSG("koi8-u")', value: 'koi8_u'},
+          {label: 'XMSG("kz1048")', value: 'kz1048'},
+          {label: 'XMSG("mac-cyrillic")', value: 'mac_cyrillic'},
+          {label: 'XMSG("mac-greek")', value: 'mac_greek'},
+          {label: 'XMSG("mac-iceland")', value: 'mac_iceland'},
+          {label: 'XMSG("mac-latin2")', value: 'mac_latin2'},
+          {label: 'XMSG("mac-roman")', value: 'mac_roman'},
+          {label: 'XMSG("mac-turkish")', value: 'mac_turkish'},
+          {label: 'XMSG("ptcp154")', value: 'ptcp154'},
+          {label: 'XMSG("shift-jis")', value: 'shift_jis'},
+          {label: 'XMSG("shift-jis-2004")', value: 'shift_jis_2004'},
+          {label: 'XMSG("shift-jisx0213")', value: 'shift_jisx0213'},
+          {label: 'XMSG("utf-32")', value: 'utf_32'},
+          {label: 'XMSG("utf-32-be")', value: 'utf_32_be'},
+          {label: 'XMSG("utf-32-le")', value: 'utf_32_le'},
+          {label: 'XMSG("utf-16-be")', value: 'utf_16_be'},
+          {label: 'XMSG("utf-16-le")', value: 'utf_16_le'},
+          {label: 'XMSG("utf-7")', value: 'utf_7'},
+          {label: 'XMSG("utf-8-sig")', value: 'utf_8_sig'}
+          ]
+        })
+        manager.addDataItem(stringSelector)
+        manager.bindDataItemToWidget(stringSelector, 'code') // Bind to widget
+
+                          // Dropdown version newline
+    var stringSelector = new AlteryxDataItems.StringSelector('newline', {
+          optionList: [
+          {label: 'XMSG("Windows")', value: 'windows'},
+          {label: 'XMSG("Unix")', value: 'unix'},
+          {label: 'XMSG("Mac")', value: 'mac'}
+          ]
+        })
+        manager.addDataItem(stringSelector)
+        manager.bindDataItemToWidget(stringSelector, 'line') // Bind to widget
+    }
+  </script>
+  <style>
+
+    h1 {
+      padding: 10px 0 5px 0;
+      margin: 15px 5px 5px 0;
+      font-size: 1.556em;
+      font-weight: normal;
+      color: #52617f;
+    }
+
+    label {
+      color: #8698ba;
+      font-size: 1.167em;
+      margin: 6px 0px 3px 0;
+      padding: 0;
+      font-weight: normal;
+      line-height: 1.42857143;
+    }
+
+    fieldset {
+      border:none;
+    }
+
+    body {
+      font-size: 10pt;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    section,
+    label,
+    select,
+    checkbox,
+    ayx {
+      padding: 10px 0 10px 0;
+    }
+
+    .header-ruler {
+      background-color: #cccccc;
+      height: 1px;
+      border: 0 none;
+      flex-grow: 1;
+      margin-top: 0.625em;
+      margin-left: 10px;
+    }
+    .header-message {
+      color: #52617f;
+      font-size: 1.78em;
+      font-weight: normal;
+      padding-bottom: 0px;
+      margin: 0px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  </style>
+</body>
+</html>

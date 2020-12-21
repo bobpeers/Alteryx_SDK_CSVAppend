@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="CSVAppendEngine.py" SDKVersion="10.1" />
+  <GuiSettings Html="CSVAppendGui.html" Icon="CSVAppendIcon.png" Help="https://github.com/bobpeers/Alteryx_SDK_CSVAppend" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label="O"/>
+    </InputConnections>
+    <OutputConnections>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>CSV Append</Name>
+      <Description>Append data to a user-specified .csv file within a local directory.</Description>
+      <CategoryName>In/Out</CategoryName>
+      <SearchTags>python, csv, append</SearchTags>
+      <ToolVersion>1.0</ToolVersion>
+      <Author>Bob Peers</Author>
+      <Company></Company>
+      <Copyright>2020</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>

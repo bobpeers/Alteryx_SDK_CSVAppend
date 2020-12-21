@@ -16,7 +16,7 @@ Download the yxi file and double click to install in Alteyrx.
 
 The tool will be installed in the __In/Out__ category.
 
-<img src="https://github.com/bobpeers/Alteryx_SDK_CSVAppend/blob/main/images/CSVAppend_toolbar.png" width="400" alt="CSV Append Install Toolbar">
+<img src="https://github.com/bobpeers/Alteryx_SDK_CSVAppend/blob/main/images/CSVAppend_toolbar.png" alt="CSV Append Install Toolbar">
 
 ## Requirements
 

@@ -10,7 +10,7 @@ Headers will also not be added to the ouput since this tool expects a file has a
 ## Installation
 Download the yxi file and double click to install in Alteyrx. 
 
-<img src="https://github.com/bobpeers/Alteryx_SDK_CSVAppend/blob/main/images/csvinstall.png.png" width="600" alt="CSV Append Install Dialog">
+<img src="https://github.com/bobpeers/Alteryx_SDK_CSVAppend/blob/main/images/csvinstall.png" width="600" alt="CSV Append Install Dialog">
 
 The tool will be installed in the __In/Out__ category.
 
